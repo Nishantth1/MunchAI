@@ -47,6 +47,22 @@ No provider-specific logic is hardwired into recommendation logic. Swiggy MCP ca
 - Shareable daily pick card
 - Gemini-backed copy generation when API key is available
 
+## Product UI Concepts
+
+These are high-fidelity product mockups aligned with a Swiggy ecosystem integration approach.
+
+### Option A — Speed First
+
+![Option A — Speed First](docs/ui-options/option-a-speed-first.png)
+
+### Option B — Discovery + Social Proof
+
+![Option B — Discovery + Social Proof](docs/ui-options/option-b-discovery-social-proof.png)
+
+### Option C — Viral + Daily Habit
+
+![Option C — Viral + Daily Habit](docs/ui-options/option-c-viral-daily-habit.png)
+
 ## Architecture
 
 ```text
