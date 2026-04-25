@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Decision Assistant</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="background-shape bg-1"></div>
+    <div class="background-shape bg-2"></div>
+    <main class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">FOOD GPT</p>
+        <h1>What should you eat today?</h1>
+        <p class="subtitle">
+          Tap your mood. Get instant meal picks with budget, health, and local trend logic.
+        </p>
+      </header>
+
+      <section class="card quick-start">
+        <div class="header-row">
+          <h2>Quick Decide</h2>
+          <label for="city" class="city-picker">
+            City
+            <select id="city" name="city">
+              <option value="Bangalore">Bangalore</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Pune">Pune</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="mood-grid" aria-label="Mood choices">
+          <button class="mood-button active" data-mood="lazy" type="button">😴 Lazy</button>
+          <button class="mood-button" data-mood="happy" type="button">😄 Happy</button>
+          <button class="mood-button" data-mood="gym" type="button">💪 Gym Mode</button>
+          <button class="mood-button" data-mood="sick" type="button">🤒 Sick</button>
+          <button class="mood-button" data-mood="broke" type="button">💸 Broke</button>
+          <button id="surprise-button" class="mood-button accent" type="button">
+            🎲 Surprise Me
+          </button>
+        </div>
+
+        <div class="controls-grid">
+          <div class="control">
+            <label for="budget">Budget <span id="budget-output">INR 250</span></label>
+            <input id="budget" type="range" min="80" max="600" step="10" value="250" />
+          </div>
+          <div class="control">
+            <label for="hungerLevel">Hunger <span id="hunger-output">3/5</span></label>
+            <input id="hungerLevel" type="range" min="1" max="5" value="3" />
+          </div>
+        </div>
+
+        <div class="chip-group-row">
+          <p>Diet</p>
+          <div id="diet-chips" class="chip-group">
+            <button class="chip active" data-value="any" type="button">Any</button>
+            <button class="chip" data-value="veg" type="button">Veg</button>
+            <button class="chip" data-value="non-veg" type="button">Non-Veg</button>
+          </div>
+        </div>
+
+        <div class="chip-group-row">
+          <p>Health Goal</p>
+          <div id="health-chips" class="chip-group">
+            <button class="chip active" data-value="none" type="button">No Preference</button>
+            <button class="chip" data-value="high_protein" type="button">High Protein</button>
+            <button class="chip" data-value="low_calorie" type="button">Low Cal</button>
+            <button class="chip" data-value="light" type="button">Light</button>
+            <button class="chip" data-value="balanced" type="button">Balanced</button>
+          </div>
+        </div>
+
+        <p id="recommendation-status" class="status-text"></p>
+      </section>
+
+      <section class="card">
+        <div class="header-row">
+          <h2>Tonight's Picks</h2>
+          <p id="results-meta" class="small-meta"></p>
+        </div>
+        <div id="recommendation-results" class="results-grid">
+          <p class="empty-state">Tap a mood to get instant suggestions.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="header-row">
+          <h2>AI Food Fortune</h2>
+          <button id="fortune-button" class="primary-inline" type="button">
+            What Should I Eat Today?
+          </button>
+        </div>
+        <div id="fortune-result" class="fortune-box">
+          <p class="empty-state">Generate your daily food fortune and share it.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="header-row">
+          <h2>Trending Near You</h2>
+          <button id="refresh-trending" class="primary-inline" type="button">Refresh</button>
+        </div>
+        <ol id="trending-results" class="trending-list"></ol>
+      </section>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
+
