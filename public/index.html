@@ -3,25 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Food Decision Assistant</title>
+    <title>MunchAI</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <div class="background-shape bg-1"></div>
-    <div class="background-shape bg-2"></div>
+    <div class="bg-orb bg-orb-a"></div>
+    <div class="bg-orb bg-orb-b"></div>
+
     <main class="app-shell">
-      <header class="hero">
-        <p class="eyebrow">FOOD GPT</p>
-        <h1>What should you eat today?</h1>
-        <p class="subtitle">
-          Tap your mood. Get instant meal picks with budget, health, and local trend logic.
+      <header class="hero-card card">
+        <div class="hero-top">
+          <span class="brand-pill">MunchAI</span>
+          <button id="refresh-all" class="btn-light" type="button">Refresh</button>
+        </div>
+        <h1>Decide your next meal in seconds</h1>
+        <p>
+          Mood-first recommendations, trending social proof, and one-tap order pathways.
         </p>
       </header>
 
-      <section class="card quick-start">
-        <div class="header-row">
+      <section class="card daily-card">
+        <div class="section-head">
+          <h2>Daily Smart Pick</h2>
+          <span id="runtime-badge" class="runtime-badge">Loading</span>
+        </div>
+        <p id="daily-pick-summary" class="muted">Preparing your top meal pick.</p>
+        <button id="accept-pick" class="btn-primary" type="button" disabled>
+          Accept and Open
+        </button>
+        <p id="accept-feedback" class="tiny muted"></p>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
           <h2>Quick Decide</h2>
-          <label for="city" class="city-picker">
+          <label for="city" class="city-control">
             City
             <select id="city" name="city">
               <option value="Bangalore">Bangalore</option>
@@ -34,28 +50,28 @@
         </div>
 
         <div class="mood-grid" aria-label="Mood choices">
-          <button class="mood-button active" data-mood="lazy" type="button">😴 Lazy</button>
-          <button class="mood-button" data-mood="happy" type="button">😄 Happy</button>
-          <button class="mood-button" data-mood="gym" type="button">💪 Gym Mode</button>
-          <button class="mood-button" data-mood="sick" type="button">🤒 Sick</button>
-          <button class="mood-button" data-mood="broke" type="button">💸 Broke</button>
-          <button id="surprise-button" class="mood-button accent" type="button">
-            🎲 Surprise Me
+          <button class="mood-button active" data-mood="lazy" type="button">Lazy</button>
+          <button class="mood-button" data-mood="happy" type="button">Happy</button>
+          <button class="mood-button" data-mood="gym" type="button">Gym Mode</button>
+          <button class="mood-button" data-mood="sick" type="button">Sick</button>
+          <button class="mood-button" data-mood="broke" type="button">Broke</button>
+          <button id="surprise-button" class="mood-button mood-accent" type="button">
+            Surprise Me
           </button>
         </div>
 
         <div class="controls-grid">
-          <div class="control">
+          <div>
             <label for="budget">Budget <span id="budget-output">INR 250</span></label>
-            <input id="budget" type="range" min="80" max="600" step="10" value="250" />
+            <input id="budget" type="range" min="80" max="700" step="10" value="250" />
           </div>
-          <div class="control">
+          <div>
             <label for="hungerLevel">Hunger <span id="hunger-output">3/5</span></label>
             <input id="hungerLevel" type="range" min="1" max="5" value="3" />
           </div>
         </div>
 
-        <div class="chip-group-row">
+        <div class="chip-row">
           <p>Diet</p>
           <div id="diet-chips" class="chip-group">
             <button class="chip active" data-value="any" type="button">Any</button>
@@ -64,7 +80,7 @@
           </div>
         </div>
 
-        <div class="chip-group-row">
+        <div class="chip-row">
           <p>Health Goal</p>
           <div id="health-chips" class="chip-group">
             <button class="chip active" data-value="none" type="button">No Preference</button>
@@ -75,37 +91,63 @@
           </div>
         </div>
 
-        <p id="recommendation-status" class="status-text"></p>
+        <p id="recommendation-status" class="tiny muted"></p>
       </section>
 
       <section class="card">
-        <div class="header-row">
-          <h2>Tonight's Picks</h2>
-          <p id="results-meta" class="small-meta"></p>
+        <div class="section-head">
+          <h2>Order Pathways</h2>
         </div>
-        <div id="recommendation-results" class="results-grid">
-          <p class="empty-state">Tap a mood to get instant suggestions.</p>
+        <div id="ecosystem-tabs" class="ecosystem-tabs">
+          <button class="eco-tab active" data-channel="food" type="button">Food</button>
+          <button class="eco-tab" data-channel="instamart" type="button">Instamart</button>
+          <button class="eco-tab" data-channel="dineout" type="button">Dineout</button>
+        </div>
+        <p id="ecosystem-copy" class="muted">
+          Food channel selected. Recommendation cards open direct dish/order pathways.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <h2>Tonight&apos;s Picks</h2>
+          <p id="results-meta" class="tiny muted"></p>
+        </div>
+        <div id="recommendation-results" class="stack">
+          <p class="muted">Tap a mood to generate recommendations.</p>
         </div>
       </section>
 
       <section class="card">
-        <div class="header-row">
+        <div class="section-head">
+          <h2>Trending Near You</h2>
+          <button id="refresh-trending" class="btn-light" type="button">Refresh</button>
+        </div>
+        <p class="formula-note">
+          Trend score: recent orders x 0.6 + searches x 0.3 + rating x 0.1
+        </p>
+        <ol id="trending-results" class="stack trend-list"></ol>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
           <h2>AI Food Fortune</h2>
-          <button id="fortune-button" class="primary-inline" type="button">
-            What Should I Eat Today?
+          <button id="fortune-button" class="btn-light" type="button">
+            Generate Fortune
           </button>
         </div>
         <div id="fortune-result" class="fortune-box">
-          <p class="empty-state">Generate your daily food fortune and share it.</p>
+          <p class="muted">Create a shareable daily food fortune.</p>
         </div>
       </section>
 
       <section class="card">
-        <div class="header-row">
-          <h2>Trending Near You</h2>
-          <button id="refresh-trending" class="primary-inline" type="button">Refresh</button>
+        <div class="section-head">
+          <h2>Weekly Report</h2>
         </div>
-        <ol id="trending-results" class="trending-list"></ol>
+        <div id="weekly-report">
+          <p class="muted">Your activity insights will appear after using the app.</p>
+        </div>
       </section>
     </main>
 
